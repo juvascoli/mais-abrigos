@@ -12,7 +12,7 @@ const Equipe = ({ imageSource, name, rm, githubUrl }) => (
   </View>
 );
 
-export default function Us() {
+export default function Us(navigation) {
   return (
     <ImageBackground 
     source={require('../../assets/bg.jpg')}

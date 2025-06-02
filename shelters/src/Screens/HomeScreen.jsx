@@ -10,7 +10,7 @@ export default function HomeScreen({ navigation }) {
         style={styles.botao}
         onPress={() => navigation.navigate("Donate")}
       >
-        <Text style={styles.textoBotao}>Doação</Text>
+        <Text style={styles.textoBotao}>Como doar?</Text>
       </TouchableOpacity>
 
       
@@ -18,14 +18,7 @@ export default function HomeScreen({ navigation }) {
         style={styles.botao}
         onPress={() => navigation.navigate("DonorList")}
       >
-        <Text style={styles.textoBotao}>DonorList</Text>
-      </TouchableOpacity>
-
-    <TouchableOpacity
-        style={styles.botao}
-        onPress={() => navigation.navigate("Us")}
-      >
-        <Text style={styles.textoBotao}>Quem Somos?</Text>
+        <Text style={styles.textoBotao}>Doações</Text>
       </TouchableOpacity>
 
 
@@ -45,7 +38,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: "bold",
-    color: "#00c8",
+    color: "#27445D",
     marginBottom: 30,
   },
   botao: {

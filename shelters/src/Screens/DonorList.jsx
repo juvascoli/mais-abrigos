@@ -93,7 +93,7 @@ export default function DonorListScreen( { navigation }) {
         />
       )}
 
-      {/* Modal de Informação */}
+
       <Modal transparent visible={modalVisivel} animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -108,7 +108,6 @@ export default function DonorListScreen( { navigation }) {
         </View>
       </Modal>
 
-      {/* Modal de Confirmação */}
       <Modal transparent visible={modalConfirmVisivel} animationType="slide">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
@@ -140,13 +139,13 @@ export default function DonorListScreen( { navigation }) {
   );
 }
 
-// Estilos
+
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#121212', padding: 20 },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#00c851',
+    color: '#27445D',
     marginBottom: 20,
   },
   card: {

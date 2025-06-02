@@ -1,21 +1,18 @@
 import { useState } from 'react';
-import {
-  View, Text, TextInput,Button,Modal, TouchableOpacity,StyleSheet,
-} from 'react-native';
+import {View, Text, TextInput,Button,Modal, TouchableOpacity,StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function RegisterDonationScreen( { Navigation}) {
   const [nomeDoador, setNomeDoador] = useState('');
   const [tipoDoacao, setTipoDoacao] = useState('');
-  const [valor, setValor] = useState('');
+  const [quantidade, setQuantidade] = useState('');
   const [observacoes, setObservacoes] = useState('');
-
   const [modalVisivel, setModalVisivel] = useState(false);
   const [textoModal, setTextoModal] = useState('');
 
   const salvarDoacao = async () => {
     if (!nomeDoador.trim() || !tipoDoacao.trim() || !valor.trim()) {
-      exibirModal('Preencha todos os campos obrigatórios corretamente.');
+      exibirModal('preencha todos os campos obrigatórios corretamente.');
       return;
     }
 
@@ -34,13 +31,13 @@ export default function RegisterDonationScreen( { Navigation}) {
       doacoes.push(novaDoacao);
       await AsyncStorage.setItem('doacoes', JSON.stringify(doacoes));
 
-      exibirModal('Doação registrada com sucesso!');
+      exibirModal('doação registrada com sucesso');
       setNomeDoador('');
       setTipoDoacao('');
-      setValor('');
+      setQuantidade('');
       setObservacoes('');
     } catch (error) {
-      exibirModal('Erro ao registrar a doação. Tente novamente.');
+      exibirModal('erro ao registrar a doação. tente novamente.');
     }
   };
 
@@ -58,7 +55,7 @@ export default function RegisterDonationScreen( { Navigation}) {
       <Text style={styles.title}>Registrar Doação</Text>
 
       <TextInput
-        placeholder="Nome do Doador"
+        placeholder="Adicione seu nome aqui doador :)"
         value={nomeDoador}
         onChangeText={setNomeDoador}
         style={styles.input}
@@ -72,14 +69,14 @@ export default function RegisterDonationScreen( { Navigation}) {
         placeholderTextColor="#aaa"
       />
       <TextInput
-        placeholder="Valor ou Descrição"
-        value={valor}
-        onChangeText={setValor}
+        placeholder="Quantidade"
+        value={quantidade}
+        onChangeText={setQuantidade}
         style={styles.input}
         placeholderTextColor="#aaa"
       />
       <TextInput
-        placeholder="Observações (opcional)"
+        placeholder="Observações"
         value={observacoes}
         onChangeText={setObservacoes}
         style={styles.input}
@@ -88,7 +85,7 @@ export default function RegisterDonationScreen( { Navigation}) {
       />
 
       <View style={styles.botao}>
-        <Button title="Salvar" color="#00c851" onPress={salvarDoacao} />
+        <Button title="Salvar" color="#27445D" onPress={salvarDoacao} />
       </View>
 
       <Modal
@@ -111,11 +108,18 @@ export default function RegisterDonationScreen( { Navigation}) {
 }
 
 const styles = StyleSheet.create({
-  container: { flex: 1, backgroundColor: '#121212', padding: 20 },
+  container: {
+     flex: 1, 
+     backgroundColor: 
+     '#121212', 
+     padding: 20,
+     justifyContent: 'center',
+     alignContent: 'center'
+    },
   title: {
     fontSize: 24,
     fontWeight: 'bold',
-    color: '#00c851',
+    color: '#EEEEEE',
     marginBottom: 20,
   },
   input: {
@@ -150,7 +154,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
   },
   modalButton: {
-    backgroundColor: '#00c851',
+    backgroundColor: '#A4CCD9',
     paddingVertical: 10,
     borderRadius: 8,
   },
