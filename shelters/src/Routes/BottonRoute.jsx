@@ -1,5 +1,5 @@
-import Us from '../Telas/Us';
-import Home from '../Telas/Home';
+import Us from '../Screens/Us';
+import Home from '../Screens/HomeScreen';
 
 import { Feather } from '@expo/vector-icons';
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
@@ -22,8 +22,8 @@ export default function TabNavigator({route}){
       />
       <Tab.Screen name="Us" component={Us} 
         options={{
-            tabBarIcon: () => <Feather name='shopping-cart' size={20} />,
-            tabBarLabel: "Us"
+            tabBarIcon: () => <Feather name='dollar-sign' size={20} />,
+            tabBarLabel: "Donate"
         }}
       />
 

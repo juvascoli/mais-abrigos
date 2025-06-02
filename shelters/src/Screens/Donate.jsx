@@ -4,7 +4,7 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function RegisterDonationScreen() {
+export default function RegisterDonationScreen( { Navigation}) {
   const [nomeDoador, setNomeDoador] = useState('');
   const [tipoDoacao, setTipoDoacao] = useState('');
   const [valor, setValor] = useState('');

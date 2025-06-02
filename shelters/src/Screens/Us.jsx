@@ -21,16 +21,16 @@ export default function Us() {
 
       <ScrollView contentContainerStyle={styles.membrosContainer}>
         <Equipe 
-          imageSource={require("../../assets/cadena.png")} 
+          imageSource={require("../../assets/cadena.jpg")} 
           name="Leonardo Cadena" 
           rm="" 
           githubUrl="https://github.com/cadenasza"
         />
         <Equipe 
-          imageSource={require("../../assets/matheus.png")} 
+          imageSource={require("../../assets/davi.png")} 
           name="Davi Gonzaga" 
           rm="" 
-          githubUrl="https://github.com/"
+          githubUrl="https://github.com/Davignz"
         />
         <Equipe 
           imageSource={require("../../assets/juliavasco.jpg")} 
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   button: {
-    backgroundColor: '#6A0DAD',
+    backgroundColor: '#6ff',
     paddingVertical: 10,
     paddingHorizontal: 50,
     borderRadius: 19,

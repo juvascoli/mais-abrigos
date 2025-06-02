@@ -6,26 +6,28 @@ export default function HomeScreen({ navigation }) {
     <View style={styles.container}>
       <Text style={styles.title}>Mais Abrigos</Text>
 
-      <TouchableOpacity
-        style={styles.botao}
-        onPress={() => navigation.navigate("Abrigos")}
-      >
-        <Text style={styles.textoBotao}>Abrigos</Text>
-      </TouchableOpacity>
-
           <TouchableOpacity
         style={styles.botao}
-        onPress={() => navigation.navigate("Abrigos")}
+        onPress={() => navigation.navigate("Donate")}
       >
         <Text style={styles.textoBotao}>Doação</Text>
       </TouchableOpacity>
 
+      
     <TouchableOpacity
         style={styles.botao}
-        onPress={() => navigation.navigate("Abrigos")}
+        onPress={() => navigation.navigate("DonorList")}
+      >
+        <Text style={styles.textoBotao}>DonorList</Text>
+      </TouchableOpacity>
+
+    <TouchableOpacity
+        style={styles.botao}
+        onPress={() => navigation.navigate("Us")}
       >
         <Text style={styles.textoBotao}>Quem Somos?</Text>
       </TouchableOpacity>
+
 
      
     </View>
@@ -35,7 +37,7 @@ export default function HomeScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#121212",
+    backgroundColor: "#fff",
     justifyContent: "center",
     alignItems: "center",
     padding: 20,
@@ -43,7 +45,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 26,
     fontWeight: "bold",
-    color: "#00c851",
+    color: "#00c8",
     marginBottom: 30,
   },
   botao: {

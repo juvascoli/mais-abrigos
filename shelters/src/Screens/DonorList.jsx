@@ -1,15 +1,8 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import React, { useEffect, useState } from 'react';
-import {
-  FlatList,
-  Modal,
-  StyleSheet,
-  Text,
-  TouchableOpacity,
-  View,
-} from 'react-native';
+import  { useEffect, useState } from 'react';
+import { FlatList, Modal, StyleSheet,Text,TouchableOpacity,View} from 'react-native';
 
-export default function DonorListScreen() {
+export default function DonorListScreen( { navigation }) {
   const [doacoes, setDoacoes] = useState([]);
 
   const [modalVisivel, setModalVisivel] = useState(false);
