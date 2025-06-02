@@ -1,4 +1,4 @@
-import Us from '../Screens/Us';
+import Donate from '../Screens/Donate';
 import Home from '../Screens/HomeScreen';
 
 import { Feather } from '@expo/vector-icons';
@@ -20,7 +20,7 @@ export default function TabNavigator({route}){
           tabBarLabel: "Home",
         }}
       />
-      <Tab.Screen name="Us" component={Us} 
+      <Tab.Screen name="Donate" component={Donate} 
         options={{
             tabBarIcon: () => <Feather name='dollar-sign' size={20} />,
             tabBarLabel: "Donate"
