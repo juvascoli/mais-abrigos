@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import  { useEffect, useState } from 'react';
 import { FlatList, Modal, StyleSheet,Text,TouchableOpacity,View} from 'react-native';
 
-export default function DonorListScreen( { navigation }) {
+export default function DonorListScreen( ) {
   const [doacoes, setDoacoes] = useState([]);
 
   const [modalVisivel, setModalVisivel] = useState(false);
@@ -78,10 +78,7 @@ export default function DonorListScreen( { navigation }) {
             <View style={styles.card}>
               <Text style={styles.nome}>Doador: {item.nomeDoador}</Text>
               <Text style={styles.tipo}>Tipo: {item.tipoDoacao}</Text>
-              <Text style={styles.valor}>Valor: {item.valor}</Text>
-              {item.observacoes ? (
-                <Text style={styles.observacoes}>Obs: {item.observacoes}</Text>
-              ) : null}
+              <Text style={styles.quantidade}>Qtd: {item.quantidade}</Text>
               <TouchableOpacity
                 onPress={() => abrirModalConfirmacao(item)}
                 style={styles.botaoRemover}
@@ -154,10 +151,13 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: 12,
   },
-  nome: { fontSize: 18, color: '#fff', fontWeight: 'bold' },
-  tipo: { fontSize: 14, color: '#ccc' },
-  valor: { fontSize: 14, color: '#fff' },
-  observacoes: { fontSize: 14, color: '#ccc' },
+  nome: { 
+    fontSize: 18,
+    color: '#fff', 
+    fontWeight: 'bold' },
+    tipo: 
+    { fontSize: 14, color: '#fff' },
+    quantidade:{ color: '#fff'},
   botaoRemover: {
     marginTop: 8,
     backgroundColor: '#d32f2f',

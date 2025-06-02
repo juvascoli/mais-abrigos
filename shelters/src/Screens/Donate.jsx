@@ -6,12 +6,11 @@ export default function RegisterDonationScreen( { Navigation}) {
   const [nomeDoador, setNomeDoador] = useState('');
   const [tipoDoacao, setTipoDoacao] = useState('');
   const [quantidade, setQuantidade] = useState('');
-  const [observacoes, setObservacoes] = useState('');
   const [modalVisivel, setModalVisivel] = useState(false);
   const [textoModal, setTextoModal] = useState('');
 
   const salvarDoacao = async () => {
-    if (!nomeDoador.trim() || !tipoDoacao.trim() || !valor.trim()) {
+    if (!nomeDoador.trim() || !tipoDoacao.trim() || !quantidade.trim() ) {
       exibirModal('preencha todos os campos obrigatórios corretamente.');
       return;
     }
@@ -19,8 +18,7 @@ export default function RegisterDonationScreen( { Navigation}) {
     const novaDoacao = {
       nomeDoador: nomeDoador.trim(),
       tipoDoacao: tipoDoacao.trim(),
-      valor: valor.trim(),
-      observacoes: observacoes.trim(),
+      quantidade: quantidade.trim(),
       dataRegistro: new Date().toISOString(),
     };
 
@@ -35,7 +33,6 @@ export default function RegisterDonationScreen( { Navigation}) {
       setNomeDoador('');
       setTipoDoacao('');
       setQuantidade('');
-      setObservacoes('');
     } catch (error) {
       exibirModal('erro ao registrar a doação. tente novamente.');
     }
@@ -75,15 +72,6 @@ export default function RegisterDonationScreen( { Navigation}) {
         style={styles.input}
         placeholderTextColor="#aaa"
       />
-      <TextInput
-        placeholder="Observações"
-        value={observacoes}
-        onChangeText={setObservacoes}
-        style={styles.input}
-        placeholderTextColor="#aaa"
-        multiline
-      />
-
       <View style={styles.botao}>
         <Button title="Salvar" color="#27445D" onPress={salvarDoacao} />
       </View>

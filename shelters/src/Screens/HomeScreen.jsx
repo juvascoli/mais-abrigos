@@ -1,12 +1,12 @@
 import React from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Mais Abrigos</Text>
 
-          <TouchableOpacity
+      <TouchableOpacity
         style={styles.botao}
         onPress={() => navigation.navigate("Donate")}
       >

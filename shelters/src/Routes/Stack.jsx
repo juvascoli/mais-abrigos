@@ -16,7 +16,7 @@ export default function StackNavigator() {
       /> 
     ),
     headerTitleAlign: 'center'}}> 
-      <Stack.Screen name="Home" component={TabNavigator}/>
+      <Stack.Screen name="stackHome" component={TabNavigator}/>
       <Stack.Screen name="Donate" component={Donate} />
       <Stack.Screen name="DonorList" component={DonorList} />
     </Stack.Navigator>
