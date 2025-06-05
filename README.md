@@ -1,8 +1,8 @@
 # +Abrigo
 
-### O aplicativo foi desenvolvido motivado pelo Global Solution da FIAP, projeto avaliativo da instituição, com o tema de "Eventos Extremos".
+### O aplicativo foi desenvolvido como parte do Global Solution da FIAP, projeto avaliativo da instituição, com o tema de "Eventos Extremos".
 
-É nítido que a cidade de São Paulo possui diversos problemas relacionados à urbanização, sendo um deles a enchente. Visando ajudar a população que foi atingida por esses trágicos incidentes, o +Abrigo tem como principal objetivo ser um polo de incentivo à doações, mostrando a localização de cada abrigo disponível e de cada recurso que já foi ou precisa ser doado para a população, como roupa, leito ou até mesmo comida e água.
+É nítido que a cidade de São Paulo possui diversos problemas relacionados à urbanização exarcebada, sendo um deles, a enchente. Visando ajudar a população atingida por esses trágicos incidentes, o Mais Abrigo tem como principal objetivo ser um polo de incentivo à doação, com funcionalidades capazes de disponibilizar a localização dos abrigos disponíveis mais próximos e cada recurso que pessoas interessadas possam doar, como roupa, leito ou até mesmo comida e água, ou já doaram. Além de promover a conscientização por uma São Paulo mais limpa e mais segura para todos.
 
 ---
 
