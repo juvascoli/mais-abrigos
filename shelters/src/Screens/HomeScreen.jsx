@@ -8,7 +8,7 @@ export default function HomeScreen({ navigation }) {
 
       <TouchableOpacity
         style={styles.botao}
-        onPress={() => navigation.navigate("Donate")}
+        onPress={() => navigation.navigate("Abrigos")}
       >
         <Text style={styles.textoBotao}>Como doar?</Text>
       </TouchableOpacity>

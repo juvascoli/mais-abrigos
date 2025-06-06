@@ -1,8 +1,10 @@
 import Donate from "../Screens/Donate";
 import DonorList from "../Screens/DonorList";
+
 import TabNavigator from "./BottonRoute";
 import {  Image, StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
+import Abrigos from "../Screens/Abrigos";
 
 const Stack = createNativeStackNavigator();
 
@@ -19,6 +21,7 @@ export default function StackNavigator() {
       <Stack.Screen name="stackHome" component={TabNavigator}/>
       <Stack.Screen name="Donate" component={Donate} />
       <Stack.Screen name="DonorList" component={DonorList} />
+      <Stack.Screen name="Abrigos" component={Abrigos} />
     </Stack.Navigator>
 
   );
