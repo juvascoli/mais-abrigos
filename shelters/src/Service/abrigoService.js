@@ -1,5 +1,21 @@
 import api from './api';
 
+
+// Cria um novo abrigo
+export async function criarAbrigo(abrigo) {
+  try {
+    const response = await api.post('/abrigos', abrigo);
+    return response.data;
+  } catch (error) {
+    if (error.response) {
+      console.log('Erro da API:', error.response.data);
+    } else {
+      console.log('Erro desconhecido:', error.message);
+    }
+    throw error; // rethrow para cair no catch do componente
+  }
+}
+
 // Lista todos os abrigos
 export async function listarAbrigos() {
   const response = await api.get('/abrigos');
@@ -12,11 +28,7 @@ export async function buscarAbrigo(id) {
   return response.data;
 }
 
-// Cria um novo abrigo
-export async function criarAbrigo(abrigo) {
-  const response = await api.post('/abrigos', abrigo);
-  return response.data;
-}
+
 
 // Atualiza um abrigo existente
 export async function atualizarAbrigo(id, abrigo) {
