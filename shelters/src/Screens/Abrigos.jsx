@@ -12,6 +12,7 @@ import { listarAbrigos, criarAbrigo } from '../Service/abrigoService';
 
 export default function Abrigos() {
   const [abrigos, setAbrigos] = useState([]);
+  const [id, setId] = useState('');
   const [nome, setNome] = useState('');
   const [capacidade, setCapacidade] = useState('');
   const [ocupacao, setOcupacao] = useState('');
@@ -29,19 +30,16 @@ export default function Abrigos() {
     try {
       const dados = await listarAbrigos();
       setAbrigos(dados.content || dados);
+      console.log('Dados dos abrigos:', dados.content || dados);
     } catch (err) {
       Alert.alert('Erro', 'Falha ao carregar abrigos');
       console.log('Erro ao carregar abrigos:', err?.response?.data || err.message);
     }
-     setAbrigos(dados.content || dados);
-     console.log('Dados dos abrigos:', dados.content || dados);
- 
   }
-
- 
 
   async function adicionarAbrigo() {
     if (
+      !id ||
       !nome ||
       !capacidade ||
       !ocupacao ||
@@ -55,17 +53,19 @@ export default function Abrigos() {
     }
 
     const novoAbrigo = {
+      id: parseInt(id),
       nome,
       capacidade: parseInt(capacidade),
       ocupacao: parseInt(ocupacao),
-      qtd_agua: parseInt(qtdAgua),
-      qtd_roupa: parseInt(qtdRoupa),
-      comida_por_pessoa: parseInt(comidaPorPessoa),
-      qtd_dormitorio: parseInt(qtdDormitorio),
-      id_local: parseInt(idLocal),
+      qtdAgua: parseInt(qtdAgua),
+      qtdRoupa: parseInt(qtdRoupa),
+      comidaPorPessoa: parseInt(comidaPorPessoa),
+      qtdDormitorio: parseInt(qtdDormitorio),
+      idLocal: parseInt(idLocal),
     };
 
     try {
+      console.log('Enviando para API:', novoAbrigo);
       const response = await criarAbrigo(novoAbrigo);
       console.log('Abrigo criado com sucesso:', response);
       limparFormulario();
@@ -80,6 +80,7 @@ export default function Abrigos() {
   }
 
   function limparFormulario() {
+    setId('');
     setNome('');
     setCapacidade('');
     setOcupacao('');
@@ -93,6 +94,7 @@ export default function Abrigos() {
   const renderForm = () => (
     <View style={styles.form}>
       <Text style={styles.title}>Cadastrar novo abrigo</Text>
+      <TextInput placeholder="ID" value={id} onChangeText={setId} style={styles.input} keyboardType="numeric" />
       <TextInput placeholder="Nome" value={nome} onChangeText={setNome} style={styles.input} />
       <TextInput placeholder="Capacidade" value={capacidade} onChangeText={setCapacidade} style={styles.input} keyboardType="numeric" />
       <TextInput placeholder="Ocupação" value={ocupacao} onChangeText={setOcupacao} style={styles.input} keyboardType="numeric" />

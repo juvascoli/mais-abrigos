@@ -2,25 +2,40 @@ import { useState } from 'react';
 import {View, Text, TextInput,Button,Modal, TouchableOpacity,StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function RegisterDonationScreen( { Navigation}) {
+export default function RegisterDonationScreen( ) {
   const [nomeDoador, setNomeDoador] = useState('');
   const [tipoDoacao, setTipoDoacao] = useState('');
   const [quantidade, setQuantidade] = useState('');
   const [modalVisivel, setModalVisivel] = useState(false);
   const [textoModal, setTextoModal] = useState('');
 
-  const salvarDoacao = async () => {
-    if (!nomeDoador.trim() || !tipoDoacao.trim() || !quantidade.trim() ) {
-      exibirModal('preencha todos os campos obrigatórios corretamente.');
-      return;
-    }
+const salvarDoacao = async () => {
+  if (!nomeDoador.trim() || !tipoDoacao.trim() || !quantidade.trim()) {
+    exibirModal('preencha todos os campos obrigatórios corretamente.');
+    return;
+  }
 
-    const novaDoacao = {
-      nomeDoador: nomeDoador.trim(),
-      tipoDoacao: tipoDoacao.trim(),
-      quantidade: quantidade.trim(),
-      dataRegistro: new Date().toISOString(),
-    };
+  const novaDoacao = {
+    nomeDoador: nomeDoador.trim(),
+    tipoDoacao: tipoDoacao.trim(),
+    quantidade: quantidade.trim(),
+    dataRegistro: new Date().toISOString(),
+  };
+
+  try {
+    const dados = await AsyncStorage.getItem('doacoes');
+    const doacoes = dados ? JSON.parse(dados) : [];
+
+    doacoes.push(novaDoacao);
+    await AsyncStorage.setItem('doacoes', JSON.stringify(doacoes));
+
+    // Navegar para ListarDoacao
+    navigation.navigate('DonorList');
+  } catch (error) {
+    exibirModal('erro ao registrar a doação. tente novamente.');
+  }
+
+
 
     try {
       const dados = await AsyncStorage.getItem('doacoes');
