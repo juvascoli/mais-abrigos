@@ -13,9 +13,6 @@ export default function DonorList() {
   setTextoModal(mensagem);
   setModalVisivel(true);
 
-  setTimeout(() => {
-    setModalVisivel(false);
-  }, 2000); 
 };
 
   const fecharModalInfo = () => {
@@ -59,6 +56,7 @@ export default function DonorList() {
       await AsyncStorage.setItem('doacoes', JSON.stringify(novasDoacoes));
       setDoacoes(novasDoacoes);
       exibirModalInfo('Doação removida com sucesso!');
+      fecharModalInfo()
     } catch (error) {
       exibirModalInfo('Erro ao remover a doação.');
     }
