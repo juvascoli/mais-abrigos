@@ -1,13 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  FlatList,
-  StyleSheet,
-  Alert,
-} from 'react-native';
+import { View,Text,TextInput,Button,FlatList,StyleSheet,Alert} from 'react-native';
 import { listarAbrigos, criarAbrigo } from '../Service/abrigoService';
 
 export default function Abrigos() {
@@ -93,7 +85,7 @@ export default function Abrigos() {
 
   const renderForm = () => (
     <View style={styles.form}>
-      <Text style={styles.title}>Cadastrar sua doação</Text>
+      <Text style={styles.title}>Cadastrar Abrigo</Text>
       <TextInput placeholder="ID" value={id} onChangeText={setId} style={styles.input} keyboardType="numeric" />
       <TextInput placeholder="Nome" value={nome} onChangeText={setNome} style={styles.input} />
       <TextInput placeholder="Capacidade" value={capacidade} onChangeText={setCapacidade} style={styles.input} keyboardType="numeric" />
@@ -107,17 +99,22 @@ export default function Abrigos() {
     </View>
   );
 
+  const renderItem = ({ item }) => (
+    <View style={styles.card}>
+      <Text style={styles.itemTitle}>{item.nome}</Text>
+      <Text style={styles.itemText}>Capacidade: {item.capacidade}</Text>
+      <Text style={styles.itemText}>Ocupação: {item.ocupacao}</Text>
+      <Text style={styles.itemText}>ID Local: {item.idLocal}</Text>
+    </View>
+  );
+
   return (
     <FlatList
       contentContainerStyle={styles.container}
       data={abrigos}
       keyExtractor={(item) => item.id.toString()}
       ListHeaderComponent={<Text style={styles.title}>Abrigos</Text>}
-      renderItem={({ item }) => (
-        <Text style={styles.item}>
-          {item.nome} - Capacidade: {item.capacidade} - Ocupação: {item.ocupacao}
-        </Text>
-      )}
+      renderItem={renderItem}
       ListFooterComponent={renderForm}
     />
   );
@@ -142,7 +139,18 @@ const styles = StyleSheet.create({
     padding: 8,
     borderRadius: 5,
   },
-  item: {
-    marginBottom: 5,
+  card: {
+    backgroundColor: '#f0f0f0',
+    padding: 12,
+    borderRadius: 8,
+    marginBottom: 10,
+  },
+  itemTitle: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    marginBottom: 4,
+  },
+  itemText: {
+    fontSize: 14,
   },
 });

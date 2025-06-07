@@ -12,7 +12,6 @@ export default function DonorList() {
  const exibirModalInfo = (mensagem) => {
   setTextoModal(mensagem);
   setModalVisivel(true);
-
 };
 
   const fecharModalInfo = () => {
@@ -90,7 +89,6 @@ export default function DonorList() {
         />
       )}
 
-      {/* Modal de mensagem */}
       <Modal transparent visible={modalVisivel} animationType="none">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
