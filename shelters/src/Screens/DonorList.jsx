@@ -1,20 +1,22 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import  { useEffect, useState } from 'react';
-import { FlatList, Modal, StyleSheet,Text,TouchableOpacity,View} from 'react-native';
+import { useEffect, useState } from 'react';
+import { FlatList, Modal, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 
-export default function DonorList( ) {
+export default function DonorList() {
   const [doacoes, setDoacoes] = useState([]);
-
   const [modalVisivel, setModalVisivel] = useState(false);
   const [textoModal, setTextoModal] = useState('');
-
   const [doacaoParaRemover, setDoacaoParaRemover] = useState(null);
   const [modalConfirmVisivel, setModalConfirmVisivel] = useState(false);
 
-  const exibirModalInfo = (mensagem) => {
-    setTextoModal(mensagem);
-    setModalVisivel(true);
-  };
+ const exibirModalInfo = (mensagem) => {
+  setTextoModal(mensagem);
+  setModalVisivel(true);
+
+  setTimeout(() => {
+    setModalVisivel(false);
+  }, 2000); 
+};
 
   const fecharModalInfo = () => {
     setModalVisivel(false);
@@ -90,8 +92,8 @@ export default function DonorList( ) {
         />
       )}
 
-
-      <Modal transparent visible={modalVisivel} animationType="slide">
+      {/* Modal de mensagem */}
+      <Modal transparent visible={modalVisivel} animationType="none">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             <Text style={styles.modalText}>{textoModal}</Text>
@@ -105,7 +107,8 @@ export default function DonorList( ) {
         </View>
       </Modal>
 
-      <Modal transparent visible={modalConfirmVisivel} animationType="slide">
+      {/* Modal de confirmação */}
+      <Modal transparent visible={modalConfirmVisivel} animationType="none">
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             {doacaoParaRemover && (
@@ -136,7 +139,6 @@ export default function DonorList( ) {
   );
 }
 
-
 const styles = StyleSheet.create({
   container: { flex: 1, backgroundColor: '#121212', padding: 20 },
   title: {
@@ -151,13 +153,18 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: 12,
   },
-  nome: { 
+  nome: {
     fontSize: 18,
-    color: '#fff', 
-    fontWeight: 'bold' },
-    tipo: 
-    { fontSize: 14, color: '#fff' },
-    quantidade:{ color: '#fff'},
+    color: '#fff',
+    fontWeight: 'bold',
+  },
+  tipo: {
+    fontSize: 14,
+    color: '#fff',
+  },
+  quantidade: {
+    color: '#fff',
+  },
   botaoRemover: {
     marginTop: 8,
     backgroundColor: '#d32f2f',
