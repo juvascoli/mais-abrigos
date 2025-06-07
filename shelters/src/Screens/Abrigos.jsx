@@ -93,7 +93,7 @@ export default function Abrigos() {
 
   const renderForm = () => (
     <View style={styles.form}>
-      <Text style={styles.title}>Cadastrar novo abrigo</Text>
+      <Text style={styles.title}>Cadastrar sua doação</Text>
       <TextInput placeholder="ID" value={id} onChangeText={setId} style={styles.input} keyboardType="numeric" />
       <TextInput placeholder="Nome" value={nome} onChangeText={setNome} style={styles.input} />
       <TextInput placeholder="Capacidade" value={capacidade} onChangeText={setCapacidade} style={styles.input} keyboardType="numeric" />

@@ -1,113 +1,35 @@
-import { useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  Modal,
-  TouchableOpacity,
-  StyleSheet,
-} from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React from "react";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
-export default function RegisterDonationScreen({ navigation }) {
-  const [nomeDoador, setNomeDoador] = useState('');
-  const [tipoDoacao, setTipoDoacao] = useState('');
-  const [quantidade, setQuantidade] = useState('');
-  const [modalVisivel, setModalVisivel] = useState(false);
-  const [textoModal, setTextoModal] = useState('');
-  const [sucesso, setSucesso] = useState(false); // <-- Flag de sucesso
-
-  const salvarDoacao = async () => {
-    if (!nomeDoador.trim() || !tipoDoacao.trim() || !quantidade.trim()) {
-      exibirModal('Preencha todos os campos obrigatórios corretamente.');
-      return;
-    }
-
-    const novaDoacao = {
-      nomeDoador: nomeDoador.trim(),
-      tipoDoacao: tipoDoacao.trim(),
-      quantidade: quantidade.trim(),
-      dataRegistro: new Date().toISOString(),
-    };
-
-    try {
-      const dados = await AsyncStorage.getItem('doacoes');
-      const doacoes = dados ? JSON.parse(dados) : [];
-
-      doacoes.push(novaDoacao);
-      await AsyncStorage.setItem('doacoes', JSON.stringify(doacoes));
-
-      // Limpa os campos
-      setNomeDoador('');
-      setTipoDoacao('');
-      setQuantidade('');
-
-      // Exibe modal e marca como sucesso
-      setSucesso(true);
-      exibirModal('Doação registrada com sucesso.');
-    } catch (error) {
-      setSucesso(false);
-      exibirModal('Erro ao registrar a doação. Tente novamente.');
-    }
-  };
-
-  const exibirModal = (mensagem) => {
-    setTextoModal(mensagem);
-    setModalVisivel(true);
-  };
-
-  const fecharModal = () => {
-    setModalVisivel(false);
-    if (sucesso) {
-      navigation.navigate('ListarAbrigos'); // Navegar para a tela desejada
-    }
-  };
-
+export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Registrar Doação</Text>
+      <Text style={styles.title}>Mais Abrigos</Text>
 
-      <TextInput
-        placeholder="Adicione seu nome aqui doador :)"
-        value={nomeDoador}
-        onChangeText={setNomeDoador}
-        style={styles.input}
-        placeholderTextColor="#aaa"
-      />
-      <TextInput
-        placeholder="Tipo de Doação (ex: roupas, alimentos)"
-        value={tipoDoacao}
-        onChangeText={setTipoDoacao}
-        style={styles.input}
-        placeholderTextColor="#aaa"
-      />
-      <TextInput
-        placeholder="Quantidade"
-        value={quantidade}
-        onChangeText={setQuantidade}
-        style={styles.input}
-        placeholderTextColor="#aaa"
-      />
-      <View style={styles.botao}>
-        <Button title="Salvar" color="#27445D" onPress={salvarDoacao} />
-      </View>
-
-      <Modal
-        animationType="slide"
-        transparent
-        visible={modalVisivel}
-        onRequestClose={fecharModal}
+      <TouchableOpacity
+        style={styles.botao}
+        onPress={() => navigation.navigate("Abrigos")}
       >
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalText}>{textoModal}</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={fecharModal}>
-              <Text style={styles.modalButtonText}>OK</Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      </Modal>
+        <Text style={styles.textoBotao}>Como doar?</Text>
+      </TouchableOpacity>
+
+      
+    <TouchableOpacity
+        style={styles.botao}
+        onPress={() => navigation.navigate("DonorList")}
+      >
+        <Text style={styles.textoBotao}>Doações</Text>
+      </TouchableOpacity>
+
+    <TouchableOpacity
+        style={styles.botao}
+        onPress={() => navigation.navigate("Volunteer")}
+      >
+        <Text style={styles.textoBotao}>Seja um voluntário</Text>
+      </TouchableOpacity>
+
+
+     
     </View>
   );
 }
@@ -115,56 +37,28 @@ export default function RegisterDonationScreen({ navigation }) {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#121212',
+    backgroundColor: "#fff",
+    justifyContent: "center",
+    alignItems: "center",
     padding: 20,
-    justifyContent: 'center',
-    alignContent: 'center',
   },
   title: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    color: '#EEEEEE',
-    marginBottom: 20,
-  },
-  input: {
-    borderWidth: 1,
-    borderColor: '#444',
-    borderRadius: 10,
-    padding: 12,
-    color: '#fff',
-    marginBottom: 12,
+    fontSize: 26,
+    fontWeight: "bold",
+    color: "#27445D",
+    marginBottom: 30,
   },
   botao: {
-    marginTop: 10,
+    backgroundColor: "#2e2e2e",
+    paddingVertical: 15,
+    paddingHorizontal: 30,
     borderRadius: 10,
-    overflow: 'hidden',
+    marginVertical: 10,
+    width: "100%",
   },
-  modalContainer: {
-    flex: 1,
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  modalContent: {
-    backgroundColor: '#2e2e2e',
-    borderRadius: 10,
-    padding: 20,
-    width: '80%',
-  },
-  modalText: {
-    color: '#fff',
-    fontSize: 16,
-    marginBottom: 20,
-    textAlign: 'center',
-  },
-  modalButton: {
-    backgroundColor: '#A4CCD9',
-    paddingVertical: 10,
-    borderRadius: 8,
-  },
-  modalButtonText: {
-    textAlign: 'center',
-    color: '#121212',
-    fontWeight: 'bold',
+  textoBotao: {
+    color: "#ffffff",
+    fontSize: 18,
+    textAlign: "center",
   },
 });

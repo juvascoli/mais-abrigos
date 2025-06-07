@@ -2,7 +2,7 @@ import { useState } from 'react';
 import {View, Text, TextInput,Button,Modal, TouchableOpacity,StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export default function RegisterDonationScreen( ) {
+export default function Donate( ) {
   const [nomeDoador, setNomeDoador] = useState('');
   const [tipoDoacao, setTipoDoacao] = useState('');
   const [quantidade, setQuantidade] = useState('');
