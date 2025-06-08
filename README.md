@@ -1,13 +1,41 @@
-# +Abrigo
+# 📱 Mais Abrigo
 
-### O aplicativo foi desenvolvido como parte do Global Solution da FIAP, projeto avaliativo da instituição, com o tema de "Eventos Extremos".
-
-É nítido que a cidade de São Paulo possui diversos problemas relacionados à urbanização exarcebada, sendo um deles, a enchente. Visando ajudar a população atingida por esses trágicos incidentes, o Mais Abrigo tem como principal objetivo ser um polo de incentivo à doação, com funcionalidades capazes de disponibilizar a localização dos abrigos disponíveis mais próximos e cada recurso que pessoas interessadas possam doar, como roupa, leito ou até mesmo comida e água, ou já doaram. Além de promover a conscientização por uma São Paulo mais limpa e mais segura para todos.
+Aplicativo mobile desenvolvido com **React Native + Expo ** e **API em Java**, como parte do projeto Global Solution da FIAP. Tem como objetivo conectar pessoas afetadas por enchentes a abrigos próximos, além de incentivar doações e ações voluntárias.
 
 ---
 
-## Integrantes
+## 🌍 Contexto
 
-- Julia Vasconcelos Oliveira || RM: 558785 || 2TDSPF
-- Leonardo Cadena || 2TDSPV
-- Davi Gonzaga || 2TDSPV
+O projeto foi idealizado a partir do tema **"Eventos Extremos"**, com foco nas enchentes recorrentes na cidade de São Paulo. O **Mais Abrigo** surge como uma solução digital que:
+
+- Disponibiliza a localização de abrigos
+- Facilita o processo de doação de itens essenciais.
+- Estimula o voluntariado.
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+### 📱 Front-end (Mobile)
+- **React Native**
+- **Expo Router**
+- **Axios** (requisições HTTP)
+
+### 🌐 Back-end (API REST)
+- **Java com Spring Boot** ou **Node.js **
+- **Banco de Dados Oracle** 
+- **Swagger** (documentação da API)
+
+---
+
+## 🚀 Funcionalidades Principais
+
+| Funcionalidade       | Descrição                                                                 |
+|----------------------|--------------------------------------------------------------------------|
+| 📍 Listagem de abrigos | Exibe abrigos próximos com informações e recursos disponíveis.            |
+| 🎁 Doações            | Cadastro de doações com modal de confirmação.                            |
+| 🙋 Voluntariado       | Tela de cadastro de voluntários com alerta de sucesso.                   |                    |
+
+---
+
+
