@@ -28,6 +28,15 @@ export default function HomeScreen({ navigation }) {
         <Text style={styles.textoBotao}>Seja um voluntário</Text>
       </TouchableOpacity>
 
+      <TouchableOpacity
+        style={styles.botao}
+        onPress={() => navigation.navigate("About")}
+      >
+        <Text style={styles.textoBotao}>Sobre</Text>
+      </TouchableOpacity>
+
+      
+
 
      
     </View>

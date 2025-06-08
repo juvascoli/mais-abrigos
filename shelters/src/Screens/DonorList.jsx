@@ -103,8 +103,7 @@ export default function DonorList() {
         </View>
       </Modal>
 
-      {/* Modal de confirmação */}
-      <Modal transparent visible={modalConfirmVisivel} animationType="none">
+      <Modal transparent visible={modalConfirmVisivel}>
         <View style={styles.modalContainer}>
           <View style={styles.modalContent}>
             {doacaoParaRemover && (

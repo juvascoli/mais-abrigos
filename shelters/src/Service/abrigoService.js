@@ -35,7 +35,6 @@ export async function atualizarAbrigo(id, abrigo) {
   return response.data;
 }
 
-// Remove um abrigo
 export async function removerAbrigo(id) {
   await api.delete(`/abrigos/${id}`);
 }

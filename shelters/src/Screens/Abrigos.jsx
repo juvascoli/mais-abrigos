@@ -1,20 +1,6 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  TouchableOpacity,
-  FlatList,
-  Modal,
-  StyleSheet,
-  Animated,
-} from 'react-native';
-import {
-  listarAbrigos,
-  criarAbrigo,
-  atualizarAbrigo,
-  removerAbrigo,
-} from '../Service/abrigoService';
+import {View,Text,TextInput,TouchableOpacity, FlatList, Modal, StyleSheet, Animated} from 'react-native';
+import { listarAbrigos, criarAbrigo, atualizarAbrigo, removerAbrigo,} from '../Service/abrigoService';
 
 export default function Abrigos() {
   const [abrigos, setAbrigos] = useState([]);
@@ -33,38 +19,14 @@ export default function Abrigos() {
   const [modalVisivel, setModalVisivel] = useState(false);
   const [abrigoExcluir, setAbrigoExcluir] = useState(null);
 
-  // Estado para animação da mensagem
-  const [fadeAnim] = useState(new Animated.Value(0));
 
   useEffect(() => {
     carregarAbrigos();
   }, []);
 
-  // Animação para exibir e sumir a mensagem automaticamente
-  useEffect(() => {
-    if (mensagem !== '') {
-      Animated.timing(fadeAnim, {
-        toValue: 1,
-        duration: 300,
-        useNativeDriver: true,
-      }).start();
 
-      const timer = setTimeout(() => {
-        Animated.timing(fadeAnim, {
-          toValue: 0,
-          duration: 300,
-          useNativeDriver: true,
-        }).start(() => {
-          setMensagem('');
-          setTipoMensagem('');
-        });
-      }, 3000);
 
-      return () => clearTimeout(timer);
-    }
-  }, [mensagem]);
-
-  async function carregarAbrigos() {
+async function carregarAbrigos() {
     try {
       const dados = await listarAbrigos();
       setAbrigos(dados.content || dados);
@@ -75,7 +37,7 @@ export default function Abrigos() {
     }
   }
 
-  async function salvarAbrigo() {
+async function salvarAbrigo() {
     if (
       !id || !nome || !capacidade || !ocupacao || !qtdAgua ||
       !qtdRoupa || !comidaPorPessoa || !qtdDormitorio || !idLocal
@@ -83,7 +45,7 @@ export default function Abrigos() {
       setMensagem('Preencha todos os campos!');
       setTipoMensagem('erro');
       return;
-    }
+  }
 
     const abrigoData = {
       id: parseInt(id),
@@ -115,7 +77,7 @@ export default function Abrigos() {
     }
   }
 
-  function editarAbrigo(item) {
+function editarAbrigo(item) {
     setId(String(item.id));
     setNome(item.nome);
     setCapacidade(String(item.capacidade));
@@ -128,12 +90,12 @@ export default function Abrigos() {
     setEditando(true);
   }
 
-  function confirmarExcluir(item) {
+function confirmarExcluir(item) {
     setAbrigoExcluir(item);
     setModalVisivel(true);
   }
 
-  async function removerAbrigos() {
+async function removerAbrigos() {
     if (!abrigoExcluir) return;
 
     try {
@@ -151,7 +113,7 @@ export default function Abrigos() {
     }
   }
 
-  function limparFormulario() {
+function limparFormulario() {
     setId('');
     setNome('');
     setCapacidade('');
@@ -164,7 +126,7 @@ export default function Abrigos() {
     setEditando(false);
   }
 
-  const renderForm = () => (
+const renderForm = () => (
     <View style={styles.form}>
       <Text style={styles.label}>
         {editando ? 'Editar Abrigo' : 'Cadastrar Abrigo'}
@@ -258,8 +220,8 @@ export default function Abrigos() {
     </View>
   );
 
-  const renderItem = ({ item }) => (
-    <View style={styles.card}>
+const renderItem = ({ item }) => (
+  <View style={styles.card}>
       <Text style={styles.cardTitle}>{item.nome}</Text>
       <Text style={styles.cardText}>Capacidade: {item.capacidade}</Text>
       <Text style={styles.cardText}>Ocupação: {item.ocupacao}</Text>
@@ -280,12 +242,11 @@ export default function Abrigos() {
           <Text style={styles.cardButtonText}>Excluir</Text>
         </TouchableOpacity>
       </View>
-    </View>
+  </View>
   );
 
-  return (
+return (
     <View style={styles.container}>
-      {/* Mensagem fixa no topo */}
       {mensagem !== '' && (
         <Animated.View
           style={[
@@ -305,7 +266,7 @@ export default function Abrigos() {
         renderItem={renderItem}
         ListFooterComponent={renderForm}
         showsVerticalScrollIndicator={false}
-        contentContainerStyle={{ paddingTop: mensagem !== '' ? 60 : 0 }}
+        contentContainerStyle={{ paddingTop: mensagem !== '' ? 60 : 0 },{paddingBottom: 80} }
       />
 
       <Modal
@@ -405,10 +366,10 @@ const styles = StyleSheet.create({
     marginLeft: 10,
   },
   editButton: {
-    backgroundColor: '#4caf50',
+    backgroundColor: 'blue',
   },
   deleteButton: {
-    backgroundColor: '#f44336',
+    backgroundColor: 'red',
   },
   cardButtonText: {
     color: '#fff',
@@ -418,7 +379,6 @@ const styles = StyleSheet.create({
     marginTop: 20,
   },
 
-  // Estilos da mensagem fixa no topo
   mensagemContainer: {
     position: 'absolute',
     top: 10,
@@ -430,10 +390,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   mensagemSucesso: {
-    backgroundColor: '#4caf50', // verde
+    backgroundColor: '#4caf50', 
   },
   mensagemErro: {
-    backgroundColor: '#f44336', // vermelho
+    backgroundColor: '#f44336', 
   },
   mensagemTexto: {
     color: '#fff',
@@ -441,7 +401,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
   },
 
-  // Modal styles
+
   modalOverlay: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.7)',
@@ -483,4 +443,9 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontWeight: 'bold',
   },
+  label:{
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 20
+  }
 });

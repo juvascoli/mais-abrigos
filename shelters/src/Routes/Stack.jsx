@@ -5,6 +5,7 @@ import {  Image, StyleSheet } from "react-native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import Abrigos from "../Screens/Abrigos";
 import Voluntarios from "../Screens/Volunteer";
+import Sobre from "../Screens/About";
 
 const Stack = createNativeStackNavigator();
 
@@ -23,6 +24,7 @@ export default function StackNavigator() {
       <Stack.Screen name="DonorList" component={DonorList} />
       <Stack.Screen name="Abrigos" component={Abrigos} />
       <Stack.Screen name="Volunteer" component={Voluntarios} />
+      <Stack.Screen name="About" component={Sobre} />
     </Stack.Navigator>
 
   );

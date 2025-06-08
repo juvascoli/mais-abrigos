@@ -73,7 +73,7 @@ export default function Donate() {
         placeholderTextColor="#aaa"
       />
       <View style={styles.botao}>
-        <Button title="Salvar" color="#27445D" onPress={salvarDoacao} />
+        <Button title="Salvar" color="blue" onPress={salvarDoacao} />
       </View>
 
       <Modal

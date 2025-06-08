@@ -1,20 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  FlatList,
-  Modal,
-  TouchableOpacity,
-  StyleSheet,
-  KeyboardAvoidingView,
-  Platform,
+import { View, Text, TextInput, FlatList, Modal, TouchableOpacity, StyleSheet, KeyboardAvoidingView, Platform,
 } from 'react-native';
-import {
-  listarVoluntarios,
-  criarVoluntarios,
-  atualizarVoluntario,
-  removerVoluntario as deletarVoluntario,
+import { listarVoluntarios, criarVoluntarios, atualizarVoluntario, removerVoluntario 
 } from '../Service/volunteerService';
 import { listarAbrigos } from '../Service/abrigoService';
 
@@ -109,7 +96,7 @@ export default function Voluntarios() {
 
   async function excluirVoluntario(id) {
     try {
-      await deletarVoluntario(id);
+      await removerVoluntario(id);
       exibirModal('Voluntário excluído com sucesso!');
       carregarVoluntarios();
     } catch (err) {
@@ -234,6 +221,7 @@ export default function Voluntarios() {
           renderItem={renderItem}
           ListFooterComponent={renderForm}
           keyboardShouldPersistTaps="handled"
+          contentContainerStyle={{ paddingBottom: 100 }} 
         />
 
         <Modal animationType="slide" transparent visible={modalVisivel} onRequestClose={fecharModal}>
@@ -298,13 +286,13 @@ const styles = StyleSheet.create({
     gap: 10,
   },
   buttonEditar: {
-    backgroundColor: '#4da6ff',
+    backgroundColor: 'blue',
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 8,
   },
   buttonExcluir: {
-    backgroundColor: '#ff4d4d',
+    backgroundColor: 'red',
     paddingVertical: 10,
     paddingHorizontal: 15,
     borderRadius: 8,
