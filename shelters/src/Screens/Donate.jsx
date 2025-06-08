@@ -118,10 +118,12 @@ const styles = StyleSheet.create({
     marginBottom: 12,
   },
   botao: {
-    marginTop: 10,
-    borderRadius: 10,
-    overflow: 'hidden',
-  },
+  marginTop: 10,
+  borderRadius: 10,
+  overflow: 'hidden',
+  alignItems: 'center', 
+},
+
   modalContainer: {
     flex: 1,
     backgroundColor: 'rgba(0,0,0,0.5)',

@@ -196,10 +196,14 @@ export default function Voluntarios() {
         keyboardType="numeric"
         placeholderTextColor="#aaa"
       />
-      <Btn txt={editando ? 'Salvar Alterações' : 'Adicionar Voluntário'} pressFunc={salvarVoluntario}/>
+      <View style={styles.botao}>
+              <Btn txt={editando ? 'Salvar Alterações' : 'Adicionar Voluntário'} pressFunc={salvarVoluntario}/>
       {editando && (
         <Btn txt="Cancelar Edição" pressFunc={limparFormulario}/>
 )}
+        
+      </View>
+
 
     </View>
   );
@@ -355,4 +359,12 @@ const styles = StyleSheet.create({
     color: '#121212',
     fontWeight: 'bold',
   },
+  botao:{
+  marginTop: 10,
+  borderRadius: 10,
+  overflow: 'hidden',
+  alignItems: 'center', 
+},
+
+  
 });
