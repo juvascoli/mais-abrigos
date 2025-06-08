@@ -12,17 +12,17 @@ export async function criarAbrigo(abrigo) {
     } else {
       console.log('Erro desconhecido:', error.message);
     }
-    throw error; // rethrow para cair no catch do componente
+    throw error; 
   }
 }
 
-// Lista todos os abrigos
+
 export async function listarAbrigos() {
   const response = await api.get('/abrigos');
   return response.data;
 }
 
-// Busca um abrigo específico pelo ID
+
 export async function buscarAbrigo(id) {
   const response = await api.get(`/abrigos/${id}`);
   return response.data;
@@ -30,7 +30,7 @@ export async function buscarAbrigo(id) {
 
 
 
-// Atualiza um abrigo existente
+
 export async function atualizarAbrigo(id, abrigo) {
   const response = await api.put(`/abrigos/${id}`, abrigo);
   return response.data;

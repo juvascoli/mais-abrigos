@@ -1,6 +1,19 @@
 import React, { useEffect, useState } from 'react';
-import { View,Text,TextInput,Button,FlatList,StyleSheet,Alert} from 'react-native';
-import { listarAbrigos, criarAbrigo } from '../Service/abrigoService';
+import {
+  View,
+  Text,
+  TextInput,
+  Button,
+  FlatList,
+  StyleSheet,
+  Alert,
+} from 'react-native';
+import {
+  listarAbrigos,
+  criarAbrigo,
+  atualizarAbrigo,
+  removerAbrigo, // função correta do service
+} from '../Service/abrigoService';
 
 export default function Abrigos() {
   const [abrigos, setAbrigos] = useState([]);
@@ -13,6 +26,7 @@ export default function Abrigos() {
   const [comidaPorPessoa, setComidaPorPessoa] = useState('');
   const [qtdDormitorio, setQtdDormitorio] = useState('');
   const [idLocal, setIdLocal] = useState('');
+  const [editando, setEditando] = useState(false);
 
   useEffect(() => {
     carregarAbrigos();
@@ -22,29 +36,21 @@ export default function Abrigos() {
     try {
       const dados = await listarAbrigos();
       setAbrigos(dados.content || dados);
-      console.log('Dados dos abrigos:', dados.content || dados);
     } catch (err) {
       Alert.alert('Erro', 'Falha ao carregar abrigos');
       console.log('Erro ao carregar abrigos:', err?.response?.data || err.message);
     }
   }
 
-  async function adicionarAbrigo() {
+  async function salvarAbrigo() {
     if (
-      !id ||
-      !nome ||
-      !capacidade ||
-      !ocupacao ||
-      !qtdAgua ||
-      !qtdRoupa ||
-      !comidaPorPessoa ||
-      !qtdDormitorio ||
-      !idLocal
+      !id || !nome || !capacidade || !ocupacao || !qtdAgua ||
+      !qtdRoupa || !comidaPorPessoa || !qtdDormitorio || !idLocal
     ) {
       return Alert.alert('Preencha todos os campos!');
     }
 
-    const novoAbrigo = {
+    const abrigoData = {
       id: parseInt(id),
       nome,
       capacidade: parseInt(capacidade),
@@ -57,17 +63,42 @@ export default function Abrigos() {
     };
 
     try {
-      console.log('Enviando para API:', novoAbrigo);
-      const response = await criarAbrigo(novoAbrigo);
-      console.log('Abrigo criado com sucesso:', response);
+      if (editando) {
+        await atualizarAbrigo(id, abrigoData);
+        Alert.alert('Sucesso', 'Abrigo atualizado com sucesso!');
+      } else {
+        await criarAbrigo(abrigoData);
+        Alert.alert('Sucesso', 'Abrigo criado com sucesso!');
+      }
       limparFormulario();
       carregarAbrigos();
     } catch (err) {
-      console.log('Erro ao criar abrigo:', err?.response?.data || err.message);
-      Alert.alert(
-        'Erro',
-        'Não foi possível criar o abrigo. Verifique os dados preenchidos ou tente novamente.'
-      );
+      console.log('Erro ao salvar abrigo:', err?.response?.data || err.message);
+      Alert.alert('Erro', 'Não foi possível salvar o abrigo.');
+    }
+  }
+
+  function editarAbrigo(item) {
+    setId(String(item.id));
+    setNome(item.nome);
+    setCapacidade(String(item.capacidade));
+    setOcupacao(String(item.ocupacao));
+    setQtdAgua(String(item.qtdAgua));
+    setQtdRoupa(String(item.qtdRoupa));
+    setComidaPorPessoa(String(item.comidaPorPessoa));
+    setQtdDormitorio(String(item.qtdDormitorio));
+    setIdLocal(String(item.idLocal));
+    setEditando(true);
+  }
+
+  async function removerAbrigos(id) {
+    try {
+      await removerAbrigo(id);
+      Alert.alert('Sucesso', 'Abrigo removido com sucesso!');
+      carregarAbrigos();
+    } catch (err) {
+      Alert.alert('Erro', 'Erro ao remover abrigo');
+      console.log('Erro ao deletar:', err?.response?.data || err.message);
     }
   }
 
@@ -81,11 +112,14 @@ export default function Abrigos() {
     setComidaPorPessoa('');
     setQtdDormitorio('');
     setIdLocal('');
+    setEditando(false);
   }
 
   const renderForm = () => (
     <View style={styles.form}>
-      <Text style={styles.title}>Cadastrar Abrigo</Text>
+      <Text style={styles.title}>
+        {editando ? 'Editar Abrigo' : 'Cadastrar Abrigo'}
+      </Text>
       <TextInput placeholder="ID" value={id} onChangeText={setId} style={styles.input} keyboardType="numeric" />
       <TextInput placeholder="Nome" value={nome} onChangeText={setNome} style={styles.input} />
       <TextInput placeholder="Capacidade" value={capacidade} onChangeText={setCapacidade} style={styles.input} keyboardType="numeric" />
@@ -95,7 +129,12 @@ export default function Abrigos() {
       <TextInput placeholder="Comida por Pessoa" value={comidaPorPessoa} onChangeText={setComidaPorPessoa} style={styles.input} keyboardType="numeric" />
       <TextInput placeholder="Qtd Dormitório" value={qtdDormitorio} onChangeText={setQtdDormitorio} style={styles.input} keyboardType="numeric" />
       <TextInput placeholder="ID Local" value={idLocal} onChangeText={setIdLocal} style={styles.input} keyboardType="numeric" />
-      <Button title="Adicionar Abrigo" onPress={adicionarAbrigo} />
+      <Button title={editando ? 'Salvar Alterações' : 'Adicionar Abrigo'} onPress={salvarAbrigo} />
+      {editando && (
+        <View style={{ marginTop: 10 }}>
+          <Button title="Cancelar Edição" onPress={limparFormulario} color="gray" />
+        </View>
+      )}
     </View>
   );
 
@@ -105,6 +144,11 @@ export default function Abrigos() {
       <Text style={styles.itemText}>Capacidade: {item.capacidade}</Text>
       <Text style={styles.itemText}>Ocupação: {item.ocupacao}</Text>
       <Text style={styles.itemText}>ID Local: {item.idLocal}</Text>
+      <View style={{ flexDirection: 'row', marginTop: 5 }}>
+        <Button title="Editar" onPress={() => editarAbrigo(item)} />
+        <View style={{ width: 10 }} />
+        <Button title="Excluir" onPress={() => removerAbrigos(item.id)} color="red" />
+      </View>
     </View>
   );
 
