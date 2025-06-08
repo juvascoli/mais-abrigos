@@ -1,7 +1,7 @@
 
 import { View, Text, StyleSheet, ScrollView } from 'react-native';
 
-export default function Sobre() {
+export default function About() {
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.titulo}>Sobre o Projeto</Text>

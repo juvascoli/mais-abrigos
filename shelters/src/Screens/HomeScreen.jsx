@@ -1,44 +1,24 @@
-
-import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import Btn from "../Components/Button"; 
 
 export default function HomeScreen({ navigation }) {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Mais Abrigos</Text>
+      <Btn
+        txt="Doações"
+        pressFunc={() => navigation.navigate("DonorList")}
+      />
 
-      <TouchableOpacity
-        style={styles.botao}
-        onPress={() => navigation.navigate("Abrigos")}
-      >
-        <Text style={styles.textoBotao}>Como doar?</Text>
-      </TouchableOpacity>
+      <Btn
+        txt="Seja um voluntário"
+        pressFunc={() => navigation.navigate("Volunteer")}
+      />
 
-      
-    <TouchableOpacity
-        style={styles.botao}
-        onPress={() => navigation.navigate("DonorList")}
-      >
-        <Text style={styles.textoBotao}>Doações</Text>
-      </TouchableOpacity>
-
-    <TouchableOpacity
-        style={styles.botao}
-        onPress={() => navigation.navigate("Volunteer")}
-      >
-        <Text style={styles.textoBotao}>Seja um voluntário</Text>
-      </TouchableOpacity>
-
-      <TouchableOpacity
-        style={styles.botao}
-        onPress={() => navigation.navigate("About")}
-      >
-        <Text style={styles.textoBotao}>Sobre</Text>
-      </TouchableOpacity>
-
-      
-
-
-     
+      <Btn
+        txt="Sobre"
+        pressFunc={() => navigation.navigate("About")}
+      />
     </View>
   );
 }
@@ -56,18 +36,5 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     color: "#27445D",
     marginBottom: 30,
-  },
-  botao: {
-    backgroundColor: "#2e2e2e",
-    paddingVertical: 15,
-    paddingHorizontal: 30,
-    borderRadius: 10,
-    marginVertical: 10,
-    width: "100%",
-  },
-  textoBotao: {
-    color: "#ffffff",
-    fontSize: 18,
-    textAlign: "center",
   },
 });

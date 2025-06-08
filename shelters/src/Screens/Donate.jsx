@@ -1,7 +1,7 @@
 import { useState } from 'react';
 import {View,Text,TextInput,Button,Modal,TouchableOpacity,StyleSheet} from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import Btn from '../Components/Button';
 export default function Donate() {
   const [nomeDoador, setNomeDoador] = useState('');
   const [tipoDoacao, setTipoDoacao] = useState('');
@@ -73,7 +73,7 @@ export default function Donate() {
         placeholderTextColor="#aaa"
       />
       <View style={styles.botao}>
-        <Button title="Salvar" color="blue" onPress={salvarDoacao} />
+        <Btn txt='Salvar' pressFunc={salvarDoacao} />
       </View>
 
       <Modal

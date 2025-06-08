@@ -4,6 +4,7 @@ import { View, Text, TextInput, FlatList, Modal, TouchableOpacity, StyleSheet, K
 import { listarVoluntarios, criarVoluntarios, atualizarVoluntario, removerVoluntario 
 } from '../Service/volunteerService';
 import { listarAbrigos } from '../Service/abrigoService';
+import Btn from '../Components/Button';
 
 export default function Voluntarios() {
   const [voluntarios, setVoluntarios] = useState([]);
@@ -195,16 +196,11 @@ export default function Voluntarios() {
         keyboardType="numeric"
         placeholderTextColor="#aaa"
       />
-      <TouchableOpacity style={styles.submitButton} onPress={salvarVoluntario}>
-        <Text style={styles.submitButtonText}>
-          {editando ? 'Salvar Alterações' : 'Adicionar Voluntário'}
-        </Text>
-      </TouchableOpacity>
+      <Btn txt={editando ? 'Salvar Alterações' : 'Adicionar Voluntário'} pressFunc={salvarVoluntario}/>
       {editando && (
-        <TouchableOpacity style={styles.cancelButton} onPress={limparFormulario}>
-          <Text style={styles.cancelButtonText}>Cancelar Edição</Text>
-        </TouchableOpacity>
-      )}
+        <Btn txt="Cancelar Edição" pressFunc={limparFormulario}/>
+)}
+
     </View>
   );
 
