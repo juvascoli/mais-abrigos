@@ -1,7 +1,6 @@
 import api from './api';
 
 
-// Cria um novo abrigo
 export async function criarAbrigo(abrigo) {
   try {
     const response = await api.post('/abrigos', abrigo);

@@ -28,8 +28,8 @@ export async function buscarVoluntario(id) {
 }
 
 
-export async function atualizarVoluntario(id, voluntario) {
-  const response = await api.put(`/oluntarios/${id}`, Voluntario);
+export async function atualizarVoluntario(id, voluntarios) {
+  const response = await api.put(`/voluntarios/${id}`, voluntarios);
   return response.data;
 }
 

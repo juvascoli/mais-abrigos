@@ -3,11 +3,12 @@ import {
   View,
   Text,
   TextInput,
-  Button,
   FlatList,
   Modal,
   TouchableOpacity,
   StyleSheet,
+  KeyboardAvoidingView,
+  Platform,
 } from 'react-native';
 import {
   listarVoluntarios,
@@ -102,7 +103,7 @@ export default function Voluntarios() {
     setCpf(item.cpf);
     setDdd(String(item.ddd));
     setNumeroCel(item.numeroCel);
-    setIdAbrigo(String(item.idAbrigo));
+    setIdAbrigo(String(item.idAbrigo || (item.abrigo && item.abrigo.id) || ''));
     setEditando(true);
   }
 
@@ -131,12 +132,22 @@ export default function Voluntarios() {
     <View style={styles.card}>
       <Text style={styles.itemTitle}>{item.nome}</Text>
       <Text style={styles.itemText}>CPF: {item.cpf}</Text>
-      <Text style={styles.itemText}>Celular: ({item.ddd}) {item.numeroCel}</Text>
-      <Text style={styles.itemText}>ID do Abrigo: {item.idAbrigo}</Text>
+      <Text style={styles.itemText}>
+        ID do Abrigo: {item.idAbrigo || (item.abrigo && item.abrigo.id) || 'Não informado'}
+      </Text>
       <View style={styles.buttonRow}>
-        <Button title="Editar" onPress={() => editarVoluntario(item)} color="#A4CCD9" />
-        <View style={{ width: 10 }} />
-        <Button title="Excluir" onPress={() => excluirVoluntario(item.id)} color="#ff4d4d" />
+        <TouchableOpacity
+          style={styles.buttonEditar}
+          onPress={() => editarVoluntario(item)}
+        >
+          <Text style={styles.buttonText}>Editar</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.buttonExcluir}
+          onPress={() => excluirVoluntario(item.id)}
+        >
+          <Text style={styles.buttonText}>Excluir</Text>
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -149,50 +160,103 @@ export default function Voluntarios() {
           {abrigo.id} - {abrigo.nome}
         </Text>
       ))}
-      <TextInput placeholder="ID" value={id} onChangeText={setId} style={styles.input} keyboardType="numeric" />
-      <TextInput placeholder="Nome" value={nome} onChangeText={setNome} style={styles.input} />
-      <TextInput placeholder="CPF" value={cpf} onChangeText={setCpf} style={styles.input} keyboardType="numeric" />
-      <TextInput placeholder="DDD" value={ddd} onChangeText={setDdd} style={styles.input} keyboardType="numeric" maxLength={2} />
-      <TextInput placeholder="Número de Celular" value={numeroCel} onChangeText={setNumeroCel} style={styles.input} keyboardType="numeric" />
-      <TextInput placeholder="ID do Abrigo" value={idAbrigo} onChangeText={setIdAbrigo} style={styles.input} keyboardType="numeric" />
-      <Button title={editando ? 'Salvar Alterações' : 'Adicionar Voluntário'} color="#27445D" onPress={salvarVoluntario} />
+      <TextInput
+        placeholder="ID"
+        value={id}
+        onChangeText={setId}
+        style={styles.input}
+        keyboardType="numeric"
+        placeholderTextColor="#aaa"
+      />
+      <TextInput
+        placeholder="Nome"
+        value={nome}
+        onChangeText={setNome}
+        style={styles.input}
+        placeholderTextColor="#aaa"
+      />
+      <TextInput
+        placeholder="CPF"
+        value={cpf}
+        onChangeText={setCpf}
+        style={styles.input}
+        keyboardType="numeric"
+        placeholderTextColor="#aaa"
+      />
+      <TextInput
+        placeholder="DDD"
+        value={ddd}
+        onChangeText={setDdd}
+        style={styles.input}
+        keyboardType="numeric"
+        maxLength={2}
+        placeholderTextColor="#aaa"
+      />
+      <TextInput
+        placeholder="Número de Celular"
+        value={numeroCel}
+        onChangeText={setNumeroCel}
+        style={styles.input}
+        keyboardType="numeric"
+        placeholderTextColor="#aaa"
+      />
+      <TextInput
+        placeholder="ID do Abrigo"
+        value={idAbrigo}
+        onChangeText={setIdAbrigo}
+        style={styles.input}
+        keyboardType="numeric"
+        placeholderTextColor="#aaa"
+      />
+      <TouchableOpacity style={styles.submitButton} onPress={salvarVoluntario}>
+        <Text style={styles.submitButtonText}>
+          {editando ? 'Salvar Alterações' : 'Adicionar Voluntário'}
+        </Text>
+      </TouchableOpacity>
       {editando && (
-        <View style={{ marginTop: 10 }}>
-          <Button title="Cancelar Edição" onPress={limparFormulario} color="#888" />
-        </View>
+        <TouchableOpacity style={styles.cancelButton} onPress={limparFormulario}>
+          <Text style={styles.cancelButtonText}>Cancelar Edição</Text>
+        </TouchableOpacity>
       )}
     </View>
   );
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Voluntários</Text>
-      <FlatList
-        data={voluntarios}
-        keyExtractor={(item) => item.id.toString()}
-        renderItem={renderItem}
-        ListFooterComponent={renderForm}
-      />
+    <KeyboardAvoidingView
+      behavior={Platform.OS === 'ios' ? 'padding' : undefined}
+      style={{ flex: 1 }}
+    >
+      <View style={styles.container}>
+        <Text style={styles.title}>Voluntários</Text>
+        <FlatList
+          data={voluntarios}
+          keyExtractor={(item) => item.id.toString()}
+          renderItem={renderItem}
+          ListFooterComponent={renderForm}
+          keyboardShouldPersistTaps="handled"
+        />
 
-      <Modal animationType="slide" transparent visible={modalVisivel} onRequestClose={fecharModal}>
-        <View style={styles.modalContainer}>
-          <View style={styles.modalContent}>
-            <Text style={styles.modalText}>{textoModal}</Text>
-            <TouchableOpacity style={styles.modalButton} onPress={fecharModal}>
-              <Text style={styles.modalButtonText}>OK</Text>
-            </TouchableOpacity>
+        <Modal animationType="slide" transparent visible={modalVisivel} onRequestClose={fecharModal}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modalContent}>
+              <Text style={styles.modalText}>{textoModal}</Text>
+              <TouchableOpacity style={styles.modalButton} onPress={fecharModal}>
+                <Text style={styles.modalButtonText}>OK</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
-      </Modal>
-    </View>
+        </Modal>
+      </View>
+    </KeyboardAvoidingView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     backgroundColor: '#121212',
     padding: 20,
+    paddingBottom: 40,
   },
   title: {
     fontSize: 24,
@@ -226,19 +290,58 @@ const styles = StyleSheet.create({
     color: '#fff',
   },
   itemText: {
-    color: '#ccc',
+    color: '#fff',
   },
   buttonRow: {
     flexDirection: 'row',
     marginTop: 10,
+    gap: 10,
+  },
+  buttonEditar: {
+    backgroundColor: '#4da6ff',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+  },
+  buttonExcluir: {
+    backgroundColor: '#ff4d4d',
+    paddingVertical: 10,
+    paddingHorizontal: 15,
+    borderRadius: 8,
+  },
+  buttonText: {
+    color: '#fff',
+    fontWeight: 'bold',
+    textAlign: 'center',
   },
   form: {
     marginTop: 20,
   },
   abrigoItem: {
-    color: '#ccc',
+    color: '#fff',
     fontSize: 14,
     marginBottom: 2,
+  },
+  submitButton: {
+    backgroundColor: '#27445D',
+    paddingVertical: 12,
+    borderRadius: 10,
+    marginTop: 10,
+  },
+  submitButtonText: {
+    color: '#fff',
+    textAlign: 'center',
+    fontWeight: 'bold',
+  },
+  cancelButton: {
+    marginTop: 10,
+    backgroundColor: '#888',
+    paddingVertical: 12,
+    borderRadius: 10,
+  },
+  cancelButtonText: {
+    color: '#fff',
+    textAlign: 'center',
   },
   modalContainer: {
     flex: 1,
