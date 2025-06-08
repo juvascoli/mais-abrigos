@@ -1,19 +1,7 @@
 import React, { useEffect, useState } from 'react';
-import {
-  View,
-  Text,
-  TextInput,
-  Button,
-  FlatList,
-  StyleSheet,
-  Alert,
+import { View, Text, TextInput, Button, FlatList, StyleSheet,
 } from 'react-native';
-import {
-  listarAbrigos,
-  criarAbrigo,
-  atualizarAbrigo,
-  removerAbrigo, // função correta do service
-} from '../Service/abrigoService';
+import { listarAbrigos, criarAbrigo, atualizarAbrigo, removerAbrigo} from '../Service/abrigoService';
 
 export default function Abrigos() {
   const [abrigos, setAbrigos] = useState([]);
@@ -27,6 +15,8 @@ export default function Abrigos() {
   const [qtdDormitorio, setQtdDormitorio] = useState('');
   const [idLocal, setIdLocal] = useState('');
   const [editando, setEditando] = useState(false);
+  const [mensagem, setMensagem] = useState('');
+  const [tipoMensagem, setTipoMensagem] = useState(''); 
 
   useEffect(() => {
     carregarAbrigos();
@@ -37,7 +27,8 @@ export default function Abrigos() {
       const dados = await listarAbrigos();
       setAbrigos(dados.content || dados);
     } catch (err) {
-      Alert.alert('Erro', 'Falha ao carregar abrigos');
+      setMensagem('Erro ao carregar abrigos');
+      setTipoMensagem('erro');
       console.log('Erro ao carregar abrigos:', err?.response?.data || err.message);
     }
   }
@@ -47,7 +38,9 @@ export default function Abrigos() {
       !id || !nome || !capacidade || !ocupacao || !qtdAgua ||
       !qtdRoupa || !comidaPorPessoa || !qtdDormitorio || !idLocal
     ) {
-      return Alert.alert('Preencha todos os campos!');
+      setMensagem('Preencha todos os campos!');
+      setTipoMensagem('erro');
+      return;
     }
 
     const abrigoData = {
@@ -65,16 +58,18 @@ export default function Abrigos() {
     try {
       if (editando) {
         await atualizarAbrigo(id, abrigoData);
-        Alert.alert('Sucesso', 'Abrigo atualizado com sucesso!');
+        setMensagem('Abrigo atualizado com sucesso!');
       } else {
         await criarAbrigo(abrigoData);
-        Alert.alert('Sucesso', 'Abrigo criado com sucesso!');
+        setMensagem('Abrigo criado com sucesso!');
       }
+      setTipoMensagem('sucesso');
       limparFormulario();
       carregarAbrigos();
     } catch (err) {
       console.log('Erro ao salvar abrigo:', err?.response?.data || err.message);
-      Alert.alert('Erro', 'Não foi possível salvar o abrigo.');
+      setMensagem('Não foi possível salvar o abrigo.');
+      setTipoMensagem('erro');
     }
   }
 
@@ -94,10 +89,12 @@ export default function Abrigos() {
   async function removerAbrigos(id) {
     try {
       await removerAbrigo(id);
-      Alert.alert('Sucesso', 'Abrigo removido com sucesso!');
+      setMensagem('Abrigo removido com sucesso!');
+      setTipoMensagem('sucesso');
       carregarAbrigos();
     } catch (err) {
-      Alert.alert('Erro', 'Erro ao remover abrigo');
+      setMensagem('Erro ao remover abrigo');
+      setTipoMensagem('erro');
       console.log('Erro ao deletar:', err?.response?.data || err.message);
     }
   }
@@ -134,6 +131,11 @@ export default function Abrigos() {
         <View style={{ marginTop: 10 }}>
           <Button title="Cancelar Edição" onPress={limparFormulario} color="gray" />
         </View>
+      )}
+      {mensagem !== '' && (
+        <Text style={[styles.feedback, tipoMensagem === 'erro' ? styles.erro : styles.sucesso]}>
+          {mensagem}
+        </Text>
       )}
     </View>
   );
@@ -196,5 +198,20 @@ const styles = StyleSheet.create({
   },
   itemText: {
     fontSize: 14,
+  },
+  feedback: {
+    marginTop: 15,
+    fontSize: 16,
+    textAlign: 'center',
+    padding: 10,
+    borderRadius: 5,
+  },
+  sucesso: {
+    color: 'green',
+    backgroundColor: '#e6ffe6',
+  },
+  erro: {
+    color: 'red',
+    backgroundColor: '#ffe6e6',
   },
 });

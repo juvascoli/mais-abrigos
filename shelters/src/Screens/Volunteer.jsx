@@ -5,14 +5,15 @@ import {
   TextInput,
   Button,
   FlatList,
+  Modal,
+  TouchableOpacity,
   StyleSheet,
-  Alert,
 } from 'react-native';
 import {
   listarVoluntarios,
   criarVoluntarios,
   atualizarVoluntario,
-  removerVoluntario,
+  removerVoluntario as deletarVoluntario,
 } from '../Service/volunteerService';
 import { listarAbrigos } from '../Service/abrigoService';
 
@@ -27,18 +28,30 @@ export default function Voluntarios() {
   const [idAbrigo, setIdAbrigo] = useState('');
   const [editando, setEditando] = useState(false);
 
+  const [modalVisivel, setModalVisivel] = useState(false);
+  const [textoModal, setTextoModal] = useState('');
+
   useEffect(() => {
     carregarAbrigos();
     carregarVoluntarios();
   }, []);
+
+  function exibirModal(mensagem) {
+    setTextoModal(mensagem);
+    setModalVisivel(true);
+  }
+
+  function fecharModal() {
+    setModalVisivel(false);
+  }
 
   async function carregarAbrigos() {
     try {
       const dados = await listarAbrigos();
       setAbrigos(dados.content || dados);
     } catch (err) {
-      Alert.alert('Erro', 'Falha ao carregar abrigos');
       console.log('Erro ao carregar abrigos:', err?.response?.data || err.message);
+      exibirModal('Erro ao carregar abrigos.');
     }
   }
 
@@ -47,14 +60,15 @@ export default function Voluntarios() {
       const dados = await listarVoluntarios();
       setVoluntarios(dados.content || dados);
     } catch (err) {
-      Alert.alert('Erro', 'Falha ao carregar voluntários');
       console.log('Erro ao carregar voluntários:', err?.response?.data || err.message);
+      exibirModal('Erro ao carregar voluntários.');
     }
   }
 
   async function salvarVoluntario() {
     if (!id || !nome || !cpf || !ddd || !numeroCel || !idAbrigo) {
-      return Alert.alert('Preencha todos os campos!');
+      exibirModal('Preencha todos os campos!');
+      return;
     }
 
     const voluntario = {
@@ -69,16 +83,16 @@ export default function Voluntarios() {
     try {
       if (editando) {
         await atualizarVoluntario(id, voluntario);
-        Alert.alert('Sucesso', 'Voluntário atualizado!');
+        exibirModal('Voluntário atualizado com sucesso!');
       } else {
         await criarVoluntarios(voluntario);
-        Alert.alert('Sucesso', 'Voluntário cadastrado!');
+        exibirModal('Voluntário cadastrado com sucesso!');
       }
       limparFormulario();
       carregarVoluntarios();
     } catch (err) {
       console.log('Erro ao salvar voluntário:', err?.response?.data || err.message);
-      Alert.alert('Erro', 'Falha ao salvar voluntário.');
+      exibirModal('Erro ao salvar voluntário.');
     }
   }
 
@@ -92,14 +106,14 @@ export default function Voluntarios() {
     setEditando(true);
   }
 
-  async function removerVoluntario(id) {
+  async function excluirVoluntario(id) {
     try {
-      await removerVoluntario(id);
-      Alert.alert('Sucesso', 'Voluntário excluído!');
+      await deletarVoluntario(id);
+      exibirModal('Voluntário excluído com sucesso!');
       carregarVoluntarios();
     } catch (err) {
-      console.log('Erro ao deletar voluntário:', err?.response?.data || err.message);
-      Alert.alert('Erro', 'Erro ao remover voluntário');
+      console.log('Erro ao excluir voluntário:', err?.response?.data || err.message);
+      exibirModal('Erro ao excluir voluntário.');
     }
   }
 
@@ -113,9 +127,23 @@ export default function Voluntarios() {
     setEditando(false);
   }
 
+  const renderItem = ({ item }) => (
+    <View style={styles.card}>
+      <Text style={styles.itemTitle}>{item.nome}</Text>
+      <Text style={styles.itemText}>CPF: {item.cpf}</Text>
+      <Text style={styles.itemText}>Celular: ({item.ddd}) {item.numeroCel}</Text>
+      <Text style={styles.itemText}>ID do Abrigo: {item.idAbrigo}</Text>
+      <View style={styles.buttonRow}>
+        <Button title="Editar" onPress={() => editarVoluntario(item)} color="#A4CCD9" />
+        <View style={{ width: 10 }} />
+        <Button title="Excluir" onPress={() => excluirVoluntario(item.id)} color="#ff4d4d" />
+      </View>
+    </View>
+  );
+
   const renderForm = () => (
     <View style={styles.form}>
-      <Text style={styles.subtitle}>IDs dos abrigos disponíveis:</Text>
+      <Text style={styles.subtitle}>Cadastrar Voluntário</Text>
       {abrigos.map((abrigo) => (
         <Text key={abrigo.id} style={styles.abrigoItem}>
           {abrigo.id} - {abrigo.nome}
@@ -127,81 +155,117 @@ export default function Voluntarios() {
       <TextInput placeholder="DDD" value={ddd} onChangeText={setDdd} style={styles.input} keyboardType="numeric" maxLength={2} />
       <TextInput placeholder="Número de Celular" value={numeroCel} onChangeText={setNumeroCel} style={styles.input} keyboardType="numeric" />
       <TextInput placeholder="ID do Abrigo" value={idAbrigo} onChangeText={setIdAbrigo} style={styles.input} keyboardType="numeric" />
-      <Button title={editando ? 'Salvar Alterações' : 'Adicionar Voluntário'} onPress={salvarVoluntario} />
+      <Button title={editando ? 'Salvar Alterações' : 'Adicionar Voluntário'} color="#27445D" onPress={salvarVoluntario} />
       {editando && (
         <View style={{ marginTop: 10 }}>
-          <Button title="Cancelar Edição" onPress={limparFormulario} color="gray" />
+          <Button title="Cancelar Edição" onPress={limparFormulario} color="#888" />
         </View>
       )}
     </View>
   );
 
-  const renderItem = ({ item }) => (
-    <View style={styles.card}>
-      <Text style={styles.itemTitle}>{item.nome}</Text>
-      <Text style={styles.itemText}>CPF: {item.cpf}</Text>
-      <Text style={styles.itemText}>Cel: ({item.ddd}) {item.numeroCel}</Text>
-      <Text style={styles.itemText}>Abrigo ID: {item.idAbrigo}</Text>
-      <View style={{ flexDirection: 'row', marginTop: 5 }}>
-        <Button title="Editar" onPress={() => editarVoluntario(item)} />
-        <View style={{ width: 10 }} />
-        <Button title="Excluir" onPress={() => removerVoluntario(item.id)} color="red" />
-      </View>
-    </View>
-  );
-
   return (
-    <FlatList
-      contentContainerStyle={styles.container}
-      data={voluntarios}
-      keyExtractor={(item) => item.id.toString()}
-      ListHeaderComponent={<Text style={styles.title}>Cadastro de Voluntários</Text>}
-      renderItem={renderItem}
-      ListFooterComponent={renderForm}
-    />
+    <View style={styles.container}>
+      <Text style={styles.title}>Voluntários</Text>
+      <FlatList
+        data={voluntarios}
+        keyExtractor={(item) => item.id.toString()}
+        renderItem={renderItem}
+        ListFooterComponent={renderForm}
+      />
+
+      <Modal animationType="slide" transparent visible={modalVisivel} onRequestClose={fecharModal}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modalContent}>
+            <Text style={styles.modalText}>{textoModal}</Text>
+            <TouchableOpacity style={styles.modalButton} onPress={fecharModal}>
+              <Text style={styles.modalButtonText}>OK</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
+    flex: 1,
+    backgroundColor: '#121212',
     padding: 20,
-    paddingBottom: 50,
   },
   title: {
     fontSize: 24,
+    color: '#EEEEEE',
     fontWeight: 'bold',
-    marginVertical: 10,
+    marginBottom: 10,
   },
   subtitle: {
     fontSize: 18,
     fontWeight: 'bold',
-    marginTop: 20,
-    marginBottom: 5,
-  },
-  form: {
-    marginTop: 30,
+    color: '#A4CCD9',
+    marginVertical: 10,
   },
   input: {
     borderWidth: 1,
-    marginVertical: 5,
-    padding: 8,
-    borderRadius: 5,
+    borderColor: '#444',
+    borderRadius: 10,
+    padding: 12,
+    color: '#fff',
+    marginBottom: 10,
+  },
+  card: {
+    backgroundColor: '#2a2a2a',
+    padding: 15,
+    borderRadius: 10,
+    marginBottom: 12,
   },
   itemTitle: {
-    fontWeight: 'bold',
     fontSize: 16,
+    fontWeight: 'bold',
+    color: '#fff',
   },
   itemText: {
-    fontSize: 14,
+    color: '#ccc',
+  },
+  buttonRow: {
+    flexDirection: 'row',
+    marginTop: 10,
+  },
+  form: {
+    marginTop: 20,
   },
   abrigoItem: {
+    color: '#ccc',
     fontSize: 14,
     marginBottom: 2,
   },
-  card: {
-    backgroundColor: '#f0f0f0',
-    padding: 12,
+  modalContainer: {
+    flex: 1,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContent: {
+    backgroundColor: '#2e2e2e',
+    borderRadius: 10,
+    padding: 20,
+    width: '80%',
+  },
+  modalText: {
+    color: '#fff',
+    fontSize: 16,
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  modalButton: {
+    backgroundColor: '#A4CCD9',
+    paddingVertical: 10,
     borderRadius: 8,
-    marginBottom: 10,
+  },
+  modalButtonText: {
+    textAlign: 'center',
+    color: '#121212',
+    fontWeight: 'bold',
   },
 });
